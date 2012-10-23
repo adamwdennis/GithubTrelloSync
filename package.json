@@ -1,0 +1,9 @@
+{
+  "name": "GithubTrelloSync",
+  "description": "Syncs trello board with github",
+  "version" : "0.0.1",
+  "engines": { "node": "0.8.x" },
+  "dependencies" : {
+    "github": "0.1.7"
+  }
+}
