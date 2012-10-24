@@ -1,4 +1,8 @@
 var GitHubApi = require("github");
+var Trello = require("node-trello");
+var config = require('./config/config.json');
+var trello = new Trello(config.trelloKey, config.trelloToken);
+
 var config = require("./config/config.json");
 
 var github = new GitHubApi({
@@ -17,20 +21,26 @@ github.issues.getAllMilestones({
 }, function(err, res) {
   if(err) throw err;
   res.sort(function(a,b) {
-    return b.number - a.number; 
+    return b.number - a.number;
   });
-  /*
-  var milestones = res.map(function(el) {
-    return {
-      number: el.number,
-      title: el.title,
-      created: el.created_at
-    };
-  });
-  console.log(milestones);
-  */
-  var latestMilestone = res[0];
 
+  var latestMilestone = res[0];
+  var description = latestMilestone.url + '\n\n' + latestMilestone.description;
+  trello.post("/1/cards", {
+    name: latestMilestone.title,
+    desc: description,
+    idList:"5086f355c87793ab57000a86"
+  }, function(err, res) {
+    if(err) throw(err);
+    var id = res.id;
+    trello.post("/1/cards/" + id + "/checklists/", {
+      name: 'testlist'
+    }, function(err, res) {
+      if(err) throw err;
+      var checklistId = res.id;
+
+    });
+  });
 });
 
 /*
