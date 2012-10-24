@@ -34,7 +34,7 @@ github.issues.getAllMilestones({
     if(err) throw(err);
     var id = res.id;
     trello.post("/1/cards/" + id + "/checklists/", {
-      name: 'testlist'
+      name: 'Issues'
     }, function(err, res) {
       if(err) throw err;
       var checklistId = res.id;
