@@ -16,6 +16,12 @@ github.authenticate({
     token: config.apiToken
 });
 
+var githubOpts = {
+  user: config.user,
+  repo: config.repo,
+  state: "open"
+};
+
 server.unsortedMilestonesListId = "5086f355c87793ab57000a86";
 server.dailyBoardId = "4fec8b3c5854e0f91f017a5e";
 server.prodListId= '5097ff419fb5bc1d44001133';
@@ -34,3 +40,9 @@ server.getCardsFromBoard = function(boardId, filter, cb) {
 server.getCardsFromList = function(listId, filter, cb) {
   trello.get("/1/lists/" + listId + "/cards" + (filter ? ("/"+filter) : ""), cb);
 };
+
+server.getAllMilestones = function(cb) {
+  github.issues.getAllMilestones(githubOpts, cb);
+};
+
+server.getAllMilestones(function(err, res) { console.log(res); });
