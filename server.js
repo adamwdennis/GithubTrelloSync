@@ -1,3 +1,5 @@
+var server = exports;
+
 var GitHubApi = require("github");
 var Trello = require("node-trello");
 var config = require('./config/config.json');
@@ -14,16 +16,21 @@ github.authenticate({
     token: config.apiToken
 });
 
-var unsortedMilestonesListId = "5086f355c87793ab57000a86";
-var dailyBoardId = "4fec8b3c5854e0f91f017a5e";
+server.unsortedMilestonesListId = "5086f355c87793ab57000a86";
+server.dailyBoardId = "4fec8b3c5854e0f91f017a5e";
+server.prodListId= '5097ff419fb5bc1d44001133';
 
 /*
  * Gets the lists from a specific board
  */
-function getListsFromBoard(boardId, filter, cb) {
+server.getListsFromBoard = function(boardId, filter, cb) {
   trello.get("/1/boards/" + boardId + "/lists" + (filter ? ("/"+filter) : "" ), cb);
-}
-function getCardsFromBoard(boardId, filter, cb) {
-  trello.get("/1/boards/" + boardId + "/cards" + (filter ? ("/"+filter) : "" ), cb);
-}
+};
 
+server.getCardsFromBoard = function(boardId, filter, cb) {
+  trello.get("/1/boards/" + boardId + "/cards" + (filter ? ("/"+filter) : "" ), cb);
+};
+
+server.getCardsFromList = function(listId, filter, cb) {
+  trello.get("/1/lists/" + listId + "/cards" + (filter ? ("/"+filter) : ""), cb);
+};
