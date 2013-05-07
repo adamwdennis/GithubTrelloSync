@@ -6,3 +6,4 @@ This allows issues added to milestones get updated in checklists on cards in tre
 npm install
 
 
+test
